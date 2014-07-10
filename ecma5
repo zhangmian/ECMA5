@@ -1,0 +1,85 @@
+            function each(arr,fn){
+                if([].forEach){
+                    arr.forEach(fn);
+                }else{
+                    for(var i = 0; i < arr.length; i++){
+                        fn(arr[i],i,arr);
+                    }
+                }
+            }
+
+            function filter(arr,fn){
+                if([].filter){
+                    return arr.filter(fn);
+                }else{
+                    var tmp = [];
+                    for(var i = 0; i < arr.length; i++){
+                        var flag = fn(arr[i],i,arr);
+
+                        if(flag){
+                            tmp.push(arr[i]);
+                        }
+                    }
+
+                    return tmp;
+                }
+            }
+
+        function some(arr,fn){
+            if([].some){
+                return arr.some(fn);
+            }else{
+                for(var i = 0; i < arr.length ; i++){
+                    var flag = fn(arr[i],i,arr);
+
+                    if(flag){
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        function every(arr,fn){
+            return !some(arr,fn);
+        }
+
+        function map(arr,fn){
+            if([].map){
+                return arr.map(fn);
+            }else{
+                for(var i = 0; i < arr.length ; i++){
+                    arr[i] = fn(arr[i],i,arr);
+                }
+
+                return arr;
+            }
+        }
+
+        function indexOf(arr,ele){
+            if([].indexOf){
+                return arr.indexOf(ele);
+            }else{
+                for(var i = 0; i < arr.length ; i++){
+                    if(arr[i] == ele){
+                        return i;
+                    }
+                }
+
+                return -1;
+            }
+        }
+
+        var str = '{"name":"zz","age":2}';
+        var json = JSON.parse(str);
+
+        function parse(jsonStr){
+            if(JSON && JSON.parse){
+                return JSON.parse(jsonStr);
+            }else{
+                //return eval("("+jsonStr+")");
+                var fn = new Function('','return '+jsonStr);
+                return fn();
+            }
+        }
